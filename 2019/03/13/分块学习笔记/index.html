@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="看到$cr$奆佬一天就学会了分块，甚至看着题解$A$掉了$YNOI$的毒瘤分块题，我也来入坑了哈哈哈哈哈。$($本文总结了巨多别人的博客$)$ 分块是一个很暴力的算法！咳咳先不提这个。。。  啥是分块：分块是一个很暴力的算法。分块将所有数据分为若干个块，维护块内信息，使得块内的查询是$O(1)$的，而总的询问就可以看做若干个块询问的总和。一般来讲，块的大小常设为$sqrt(n)$，但实际上块的大小">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分块学习笔记">
+<meta property="og:url" content="http://Lxy-Tql.github.io/2019/03/13/分块学习笔记/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="看到$cr$奆佬一天就学会了分块，甚至看着题解$A$掉了$YNOI$的毒瘤分块题，我也来入坑了哈哈哈哈哈。$($本文总结了巨多别人的博客$)$ 分块是一个很暴力的算法！咳咳先不提这个。。。  啥是分块：分块是一个很暴力的算法。分块将所有数据分为若干个块，维护块内信息，使得块内的查询是$O(1)$的，而总的询问就可以看做若干个块询问的总和。一般来讲，块的大小常设为$sqrt(n)$，但实际上块的大小">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/06/5c7f24351255d.png">
+<meta property="og:updated_time" content="2019-03-13T07:14:51.373Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分块学习笔记">
+<meta name="twitter:description" content="看到$cr$奆佬一天就学会了分块，甚至看着题解$A$掉了$YNOI$的毒瘤分块题，我也来入坑了哈哈哈哈哈。$($本文总结了巨多别人的博客$)$ 分块是一个很暴力的算法！咳咳先不提这个。。。  啥是分块：分块是一个很暴力的算法。分块将所有数据分为若干个块，维护块内信息，使得块内的查询是$O(1)$的，而总的询问就可以看做若干个块询问的总和。一般来讲，块的大小常设为$sqrt(n)$，但实际上块的大小">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/06/5c7f24351255d.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://Lxy-Tql.github.io/2019/03/13/分块学习笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>分块学习笔记 | Lee's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">----一只蒟蒻的刷题历程</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-friends">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/friends/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>友链</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://Lxy-Tql.github.io/2019/03/13/分块学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="蒟蒻Lee">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">分块学习笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-13 15:14:25 / 修改时间：15:14:51" itemprop="dateCreated datePublished" datetime="2019-03-13T15:14:25+08:00">2019-03-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>看到$cr$奆佬一天就学会了分块，甚至<del>看着题解</del>$A$掉了$YNOI$的毒瘤分块题，我也来入坑了<del>哈哈哈哈哈</del>。$($本文总结了巨多别人的博客$)$</p>
+<h3 id="分块是一个很暴力的算法！"><a href="#分块是一个很暴力的算法！" class="headerlink" title="分块是一个很暴力的算法！"></a>分块是一个很暴力的算法！</h3><p>咳咳先不提这个。。。</p>
+<ul>
+<li>啥是分块：<del>分块是一个很暴力的算法</del>。分块将所有数据分为若干个块，维护块内信息，使得块内的查询是$O(1)$的，而总的询问就可以看做若干个块询问的总和。一般来讲，块的大小常设为$sqrt(n)$，但实际上块的大小可以任意自定，通过调试来尽可能让复杂度更优。</li>
+</ul>
+<p>偷图：<img src="https://i.loli.net/2019/03/06/5c7f24351255d.png" alt></p>
+<ul>
+<li><p>为什么要分块：因为。。。<del>分块是一个很暴力的算法</del>。它可以完成几乎所有区间更新和区间查询问题$($考场骗分利器$)$。对于小数据，可能效率与线段树相似。虽然大数据可能效率较低，但有些题的确只能用分块做$($<del>神仙不管</del>$)$。总之，分块的适用性比线段树要广，毕竟是暴力算法</p>
+</li>
+<li><p>分块实现的基本框架：<br>划分块，预处理，操作或查询。</p>
+</li>
+</ul>
+<p>操作或查询通常为4步：</p>
+<ol>
+<li><p>判断要操作或是查询的区间是否在一个块内</p>
+</li>
+<li><p>若在一个块内，暴力操作或查询</p>
+</li>
+<li><p>若不在一个块内，将除了最左边和最右边这两个块外其余的块进行整体的操作，即直接对块打上修改标记之类的</p>
+</li>
+<li><p>单独暴力处理最左边的块和最右边的块</p>
+</li>
+</ol>
+<p>分块的基础即建块，类比线段树建树。用$size$表示每一块的大小，$num$表示一共几块，$belong[i]$表示原序列中第$i$个元素在第几块，$l[i],r[i]$分别表示第$i$块的左端点和右端点。<br>上代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">	size=<span class="built_in">sqrt</span>(n);</span><br><span class="line">	num=n/size;</span><br><span class="line">	<span class="keyword">if</span>(n%size!=<span class="number">0</span>) num++;<span class="comment">//除不尽说明多出一块边角料</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) belong[i]=(i<span class="number">-1</span>)/size+<span class="number">1</span>; </span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=num;i++)&#123;</span><br><span class="line">		l[i]=(i<span class="number">-1</span>)*size+<span class="number">1</span>;</span><br><span class="line">		r[i]=i*size;</span><br><span class="line">	&#125;</span><br><span class="line">	r[num]=n;<span class="comment">//最后一块大小可能不为size,右边界特殊处理 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>来一道基础题：给出一个长为$n$的数列，以及$n$个操作，操作涉及区间加法，单点查值。$(1\leq n\leq 50000)$ <a href="https://loj.ac/problem/6277" target="_blank" rel="noopener">链接</a></p>
+<p>这种题当然可以各种姿势水过去，但我们要学习分块，所以就分块咯。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,size,num,belong[<span class="number">100005</span>],l[<span class="number">10005</span>],r[<span class="number">10005</span>],tag[<span class="number">10005</span>],w[<span class="number">100005</span>];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret=<span class="number">0</span>,ff=<span class="number">1</span>;<span class="keyword">char</span> ch=getchar();</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(ch))&#123;<span class="keyword">if</span>(ch==<span class="string">'-'</span>) ff=-ff;ch=getchar();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(ch))&#123;ret=(ret&lt;&lt;<span class="number">3</span>)+(ret&lt;&lt;<span class="number">1</span>)+ch-<span class="string">'0'</span>;ch=getchar();&#125;</span><br><span class="line">    <span class="keyword">return</span> ret*ff;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">	size=<span class="built_in">sqrt</span>(n);</span><br><span class="line">	num=n/size;</span><br><span class="line">	<span class="keyword">if</span>(n%size!=<span class="number">0</span>) num++;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) belong[i]=(i<span class="number">-1</span>)/size+<span class="number">1</span>; </span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=num;i++)&#123;</span><br><span class="line">		l[i]=(i<span class="number">-1</span>)*size+<span class="number">1</span>;</span><br><span class="line">		r[i]=i*size;</span><br><span class="line">	&#125;</span><br><span class="line">	r[num]=n; </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=x;i&lt;=min(y,r[belong[x]]);i++) w[i]+=v;<span class="comment">//左边边角块 </span></span><br><span class="line">	<span class="keyword">if</span>(belong[x]!=belong[y])&#123;<span class="comment">//不在同一个块 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=(belong[y]<span class="number">-1</span>)*size+<span class="number">1</span>;i&lt;=y;i++)<span class="comment">//右边边角块 </span></span><br><span class="line">			w[i]+=v;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=belong[x]+<span class="number">1</span>;i&lt;=belong[y]<span class="number">-1</span>;i++) tag[i]+=v;<span class="comment">//块整体打标记</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> w[x]+tag[belong[x]];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	n=read();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) w[i]=read();</span><br><span class="line">	build();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">int</span> opt=read(),x=read(),y=read(),v=read();</span><br><span class="line">		<span class="keyword">if</span>(opt==<span class="number">0</span>) add(x,y,v);</span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,query(y));</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>分块也可以水数据小的线段树，<a href="https://www.luogu.org/problemnew/show/P3372" target="_blank" rel="noopener">rt</a><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> GCC optimize(3)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> int long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,size,num,belong[<span class="number">100005</span>],l[<span class="number">10005</span>],r[<span class="number">10005</span>],sum[<span class="number">10005</span>],tag[<span class="number">10005</span>],w[<span class="number">100005</span>];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret=<span class="number">0</span>,ff=<span class="number">1</span>;<span class="keyword">char</span> ch=getchar();</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(ch))&#123;<span class="keyword">if</span>(ch==<span class="string">'-'</span>) ff=-ff;ch=getchar();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(ch))&#123;ret=(ret&lt;&lt;<span class="number">3</span>)+(ret&lt;&lt;<span class="number">1</span>)+ch-<span class="string">'0'</span>;ch=getchar();&#125;</span><br><span class="line">    <span class="keyword">return</span> ret*ff;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">	size=<span class="built_in">sqrt</span>(n);</span><br><span class="line">	num=n/size;</span><br><span class="line">	<span class="keyword">if</span>(n%size!=<span class="number">0</span>) num++;<span class="comment">//除不尽说明多出一块边角料</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) belong[i]=(i<span class="number">-1</span>)/size+<span class="number">1</span>; </span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=num;i++)&#123;</span><br><span class="line">		l[i]=(i<span class="number">-1</span>)*size+<span class="number">1</span>;</span><br><span class="line">		r[i]=i*size;</span><br><span class="line">	&#125;</span><br><span class="line">	r[num]=n;<span class="comment">//最后一块大小可能不为size,右边界特殊处理 </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=x;i&lt;=min(y,r[belong[x]]);i++) w[i]+=v;<span class="comment">//左边边角块</span></span><br><span class="line">	sum[belong[x]]+=(min(y,r[belong[x]])-x+<span class="number">1</span>)*v;</span><br><span class="line">	<span class="keyword">if</span>(belong[x]!=belong[y])&#123;<span class="comment">//不在同一个块 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=(belong[y]<span class="number">-1</span>)*size+<span class="number">1</span>;i&lt;=y;i++) w[i]+=v;</span><br><span class="line">		sum[belong[y]]+=(y-((belong[y]<span class="number">-1</span>)*size+<span class="number">1</span>)+<span class="number">1</span>)*v;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=belong[x]+<span class="number">1</span>;i&lt;=belong[y]<span class="number">-1</span>;i++) tag[i]+=v,sum[i]+=v*size;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=x;i&lt;=min(y,r[belong[x]]);i++) res+=w[i]+tag[belong[x]];</span><br><span class="line">	<span class="keyword">if</span>(belong[x]!=belong[y])&#123; </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=(belong[y]<span class="number">-1</span>)*size+<span class="number">1</span>;i&lt;=y;i++) </span><br><span class="line">			res+=w[i]+tag[belong[y]];	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=belong[x]+<span class="number">1</span>;i&lt;=belong[y]<span class="number">-1</span>;i++) res+=sum[i];</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	n=read(),m=read();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) w[i]=read();</span><br><span class="line">	build();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) sum[belong[i]]+=w[i];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="keyword">int</span> opt=read(),x=read(),y=read();</span><br><span class="line">		<span class="keyword">if</span>(opt==<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="keyword">int</span> v=read();</span><br><span class="line">			add(x,y,v);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,query(x,y));</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="持续更新ing"><a href="#持续更新ing" class="headerlink" title="持续更新ing"></a>持续更新ing</h1>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/13/题解 luoguP1772 【[ZJOI2006]物流运输】/" rel="next" title="题解 luoguP1772 【[ZJOI2006]物流运输】">
+                <i class="fa fa-chevron-left"></i> 题解 luoguP1772 【[ZJOI2006]物流运输】
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="蒟蒻Lee">
+            
+              <p class="site-author-name" itemprop="name">蒟蒻Lee</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Lxy-Tql" title="GitHub &rarr; https://github.com/Lxy-Tql" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.luogu.org/space/show?uid=27858" title="Luogu &rarr; https://www.luogu.org/space/show?uid=27858" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>Luogu</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蒟蒻Lee</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.has-jax {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+li {
+  list-style-position: inside !important;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
