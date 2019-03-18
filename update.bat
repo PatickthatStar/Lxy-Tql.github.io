@@ -1,2 +1,2 @@
 cd /d F:/blog/lxy666
-hexo clean && hexo g && hexo d
+git add .&& git commit -m "xxx" && git push origin hexo && hexo clean && hexo g && hexo d
