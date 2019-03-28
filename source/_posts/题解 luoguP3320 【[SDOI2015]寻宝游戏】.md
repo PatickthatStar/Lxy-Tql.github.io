@@ -7,6 +7,8 @@ tag:
 - LCA
 - set
 ---
+[传送门](https://www.luogu.org/problemnew/show/P3320)
+
 看到建虚树的做法？？？~~不会~~
 
 这题要求每一次加减操作都计算答案，那么我们考虑加入一个点的贡献。

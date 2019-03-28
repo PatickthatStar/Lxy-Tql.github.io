@@ -6,6 +6,8 @@ tag:
 - BZOJ
 - Trie树
 ---
+[传送门](https://www.lydsy.com/JudgeOnline/problem.php?id=4260)
+
 题目要求一个序列中的两个子段，使这两个子段每段的异或和加起来值最大。
 
 说到异或，我就想到~~开花~~$Trie$字典树。
