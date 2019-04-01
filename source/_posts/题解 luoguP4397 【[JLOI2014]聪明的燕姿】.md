@@ -7,6 +7,8 @@ tag:
 - 搜索
 - 数论
 ---
+[传送门](https://www.luogu.org/problemnew/show/P4397)
+
 给你一个数$S$，求约数和等于$S$的数。
 
 好像也没什么好说的，主要就两个式子：
