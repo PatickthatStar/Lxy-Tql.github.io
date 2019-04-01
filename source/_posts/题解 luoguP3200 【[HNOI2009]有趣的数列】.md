@@ -73,9 +73,9 @@ signed main(){
             mn[i]=i;
         }
         for(int j=1;j<=top&&pr[j]*i<=2*n;j++){
-            v[pr[j]*i]=0;
-            mn[pr[j]*i]=pr[j];
+            v[pr[j]*i]=0;           
             if(i%pr[j]==0) break;
+            mn[pr[j]*i]=pr[j];
         }
     }
     for(int i=1;i<=n;i++) cnt[i]=-1;
