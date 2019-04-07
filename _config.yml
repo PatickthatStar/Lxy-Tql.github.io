@@ -13,7 +13,8 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://Lxy-Tql.github.io
+url: 
+    github: http://Lxy-Tql.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -82,6 +83,7 @@ deploy:
   type: git
   repo: 
     github: https://github.com/Lxy-Tql/Lxy-Tql.github.io.git
+    gitee: 
   branch: master
 search:
   path: search.xml
