@@ -82,7 +82,6 @@ deploy:
   type: git
   repo: 
     github: https://github.com/Lxy-Tql/Lxy-Tql.github.io.git
-    gitee: 
   branch: master
 search:
   path: search.xml
