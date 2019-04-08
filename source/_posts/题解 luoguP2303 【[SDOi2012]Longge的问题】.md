@@ -7,6 +7,8 @@ tag:
 - 欧拉函数
 - 数论
 ---
+[传送门](https://www.luogu.org/problemnew/show/P2303)
+
 好水的蓝题啊，~~少数没有看题解做的题~~
 
 题面简洁明了：求$\sum\limits_{i=1}^{n}gcd(i,n)$
