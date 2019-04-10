@@ -13,4 +13,4 @@ date: 2019-03-13 13:49:58
 |     [heyuanjie](https://heyuanjie.github.io)(何元捷)  | 绍兴市第一中学 |
 | [xuxuxuxuxuxjh](https://xuxuxuxuxuxjh.github.io)(徐嘉浩) |绍兴市第一中学 |
 
-## 欢迎各大奆佬交换友链！
+## 欢迎各位奆佬交换友链！
