@@ -7,8 +7,8 @@
       <tags>
         <tag>题解</tag>
         <tag>数论</tag>
-        <tag>欧拉函数</tag>
         <tag>Luogu</tag>
+        <tag>欧拉函数</tag>
         <tag>逆元</tag>
       </tags>
   </entry>
@@ -19,8 +19,8 @@
       <tags>
         <tag>题解</tag>
         <tag>数论</tag>
-        <tag>欧拉函数</tag>
         <tag>Luogu</tag>
+        <tag>欧拉函数</tag>
       </tags>
   </entry>
   <entry>
@@ -93,8 +93,8 @@
     <content type="text"><![CDATA[传送门 首先发现是一张连通图，而且只有$100$条边，那么点也很少 编号是乱的，先进行一波离散化，上$map$即可(STL大法好) 离散化后，转化成邻接矩阵，这个矩阵实际上表示的是$i$到$j$只经过$1$条边的最短路矩阵。这时发现，我们要求的答案是一个$st$到$ed$且只经过$n$条边的最短路矩阵。 考虑如何从小矩阵推向大矩阵：设矩阵$A$是一个任意两点经过$x$条边的最短路矩阵，设矩阵$B$是一个任意两点经过$y$条边的最短路矩阵 $A$ $\times$ $B$得到矩阵$C$，那么矩阵$C$是一个经过$(x+y)$条边的矩阵 重载乘法，因为矩阵转移时的实质为$Floyd$松弛：$C(i,j)=min(A(i,k)+B(k,j)) (1&lt;=k&lt;=n)$ 答案就是初始矩阵的$k$次方，矩阵快速幂加速即可1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950#include&lt;bits/stdc++.h&gt;#define ts cout&lt;&lt;"ok"&lt;&lt;endl#define oo (1e18)#define int long long#define LL unsigned long long#define hh puts("")using namespace std;int k,m,st,ed,cnt=0;map&lt;int,int&gt; mp;struct matrix&#123; int ma[105][105]; void init()&#123;memset(ma,0x3f,sizeof(ma));&#125;&#125;f,ans;inline int read()&#123; int ret=0,ff=1;char ch=getchar(); while(!isdigit(ch))&#123;if(ch=='-') ff=-1;ch=getchar();&#125; while(isdigit(ch))&#123;ret=(ret&lt;&lt;3)+(ret&lt;&lt;1)+(ch^48);ch=getchar();&#125; return ret*ff;&#125;matrix mul(matrix a,matrix b)&#123; matrix res; res.init(); for(int kk=1;kk&lt;=cnt;kk++) for(int i=1;i&lt;=cnt;i++) for(int j=1;j&lt;=cnt;j++) res.ma[i][j]=min(res.ma[i][j],a.ma[i][kk]+b.ma[kk][j]); return res;&#125;void ksm(int p)&#123; while(p)&#123; if(p&amp;1) ans=mul(ans,f); p&gt;&gt;=1; f=mul(f,f); &#125;&#125;signed main()&#123; k=read(),m=read(),st=read(),ed=read(); f.init(),ans.init(); for(int i=1;i&lt;=m;i++)&#123; int v=read(); int x=read(),y=read(); if(!mp[x]) mp[x]=++cnt; if(!mp[y]) mp[y]=++cnt; f.ma[mp[x]][mp[y]]=f.ma[mp[y]][mp[x]]=min(f.ma[mp[x]][mp[y]],v); &#125; for(int i=1;i&lt;=cnt;i++) ans.ma[i][i]=0; ksm(k); printf("%lld",ans.ma[mp[st]][mp[ed]]); return 0;&#125;]]></content>
       <tags>
         <tag>题解</tag>
-        <tag>最短路</tag>
         <tag>Luogu</tag>
+        <tag>最短路</tag>
         <tag>离散化</tag>
         <tag>Floyd</tag>
         <tag>矩阵</tag>
@@ -105,8 +105,8 @@
     <url>%2F2019%2F03%2F17%2F%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%2F</url>
     <content type="text"><![CDATA[定义：对于正整数$n$，欧拉函数是小于等于$n$的数中与$n$互质的数的个数。 符号：$φ(n)$表示$n$的欧拉函数，默认$φ(1)=1$。 一些定理： 1.对于一个素数$p$，$φ(p)=p-1$。 证明略。 2.对于两个互质的数$a,b$，$φ(a \times b)=φ(a) \times φ(b)$。$($感谢 $hyj$ 巨佬的指正$)$ 证明：因为$a$与$b$互质，所以$a$与$b$没有共同的质因数。设$a$有$k_a$个质因数，$b$有$k_b$个质因数，因此： \begin{aligned}φ(a)*φ(b)&=a*\prod\limits_{i=1}^{k_a} \left(1-\dfrac{1}{p[i]}\right)*b*\prod\limits_{i=1}^{k_b} \left(1-\dfrac{1}{p[i]}\right)\\&=a*b*\prod\limits_{i=1}^{k_a+k_b} \left(1-\dfrac{1}{p[i]}\right)\\&=φ(a*b)\end{aligned}注：欧拉函数是积性函数，但不是完全积性函数。 $update$：这个证法貌似是错的，因为要用到欧拉函数的公式，但是欧拉函数的公式又要由这个式子推出来。所以只能显然正确了。真的证明我还不会$($我菜爆了$)$，可以参考这里 3.对于一个素数$p$的幂次，如$p^{a}$，有$φ(p^{a})$ $=$ $(p-1)$ $\times$ $p^{a-1}$。 证明：比$p^{a}$小的正整数共$p^{a}-1$个。其中所有$p$的倍数可以表示成$p$ $\times$ $t$ $(t=1,2……p^{a-1}-1)$，即共有$p^{a-1}-1$个数能被$p$整除。因为$p$是质数，所以显然只有这些数不能被$p$整除，剩余的数都与$p$互质。因此，$φ(p^{a})$ $=$ $p^{a}-1$ $-$ $(p^{a-1}-1)$ $=$ $(p-1)$ $\times$ $p^{a-1}$。 4.如果$i\%p=0$，那么$φ(i\times p)=φ(i)\times p$。 证明：懒了不想写，好像没多大用。 求欧拉函数： 1.求单个欧拉函数：$φ(x)$ $=x$ $\times$ $\prod\limits_{i=1}^k \left(1-\dfrac{1}{p[i]}\right)$ 其中$p[1],p[2]……p[k]$为$x$的所有质因子 证明：首先，由整数的唯一分解定理可得，$x$ $=$ $p[1]^{a_1}$ $\times$ $p[2]^{a_2}$ $\times$ $……$ $\times$ $p[k]^{a_k}$。显然$p[1]^{a_1}$，$p[2]^{a_2}$，$……$，$p[k]^{a_k}$之间两两互质。那么，根据定理$2,3$： \begin{aligned}φ(x)&=φ(p[1]^{a_1})*φ(p[2]^{a_2})*......*φ(p[k]^{a_k})\\&=(p[1]^{a_1}*(1-\frac{1}{p[1]}))*(p[2]^{a_2}*(1-\frac{1}{p[2]}))*......* (p[k]^{a_k}*(1-\frac{1}{p[k]}))\\&=(p[1]^{a_1}*p[2]^{a_2}*......*p[k]^{a_k})*(1-\frac{1}{p[1]})*(1-\frac{1}{p[2]})*......*(1-\frac{1}{p[k]})\\&=x*\prod\limits_{i=1}^k \left(1-\dfrac{1}{p[i]}\right)\end{aligned}代码：1234567891011inline int getphi(int x)&#123; int res=x; for(int i=2;i*i&lt;=x;i++)&#123; if(x%i==0)&#123; res=res/i*(i-1);//通分公式大括号内内容即可 while(x%i==0) x/=i; &#125; &#125; if(x&gt;1) res=res/x*(x-1); return res;&#125; 2.线性筛欧拉函数：方法类似于筛素数，其实并不难，在筛素数的同时进行筛欧拉函数。 用到上面的1，2，4定理。 代码： 1234567891011121314for(int i=2;i&lt;=n;i++)&#123; if(!v[i])&#123; phi[i]=i-1; pr[++top]=i; &#125; for(int j=1;j&lt;=top&amp;&amp;i*pr[j]&lt;=n;j++)&#123; v[i*pr[j]]=1; if(i%pr[j]==0)&#123; phi[i*pr[j]]=phi[i]*pr[j]; break; &#125; else phi[i*pr[j]]=phi[i]*phi[pr[j]]; &#125;&#125; 欧拉定理：若$gcd(a,m)=1​$，那么$a^{φ(m)}​$ $\equiv​$ $1 \pmod m​$。 证明：找欧拉去]]></content>
       <tags>
-        <tag>数论</tag>
         <tag>学习笔记</tag>
+        <tag>数论</tag>
         <tag>欧拉函数</tag>
       </tags>
   </entry>
